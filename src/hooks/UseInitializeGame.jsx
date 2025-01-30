@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 // Helper function to count neighboring mines
 const countNeighboringMines = (row, col, mines, gridLength) => {
   let count = 0;
@@ -41,6 +43,14 @@ function initializeGame(gridLength, mineCount, setMinePositions, setCellStates, 
   setCellStates(initialCellStates);
 }
 
+// Wrap the initializeGame function with useCallback
 export default function UseInitializeGame() {
-  return initializeGame;
+  const memoizedInitializeGame = useCallback(
+    (gridLength, mineCount, setMinePositions, setCellStates, safeIndex = null) => {
+      initializeGame(gridLength, mineCount, setMinePositions, setCellStates, safeIndex);
+    },
+    [] // Empty dependency array = function is memoized and won't change
+  );
+
+  return memoizedInitializeGame;
 }

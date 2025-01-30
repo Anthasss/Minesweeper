@@ -19,6 +19,7 @@ export default function GameEndModal() {
   const handleClose = () => {
     setOpen(false);
     restartGame();
+    console.log("game restarted");
   };
 
   return (

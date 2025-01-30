@@ -14,10 +14,16 @@ const useGameState = create((set) => ({
   gridLength: 6,
   mineCount: 4,
 
+  // winning condition
+  revealedCellCount: 0,
+  incrementRevealedCellCount: () => set((state) => ({ revealedCellCount: state.revealedCellCount + 1 })),
+  setRevealedCellCountToZero: () => set({ revealedCellCount: 0 }),
+
   // restart game
   restartGame: () => {
     set({
       isGameOver: false,
+      revealedCellCount: 0,
     });
   },
 }));

@@ -7,7 +7,8 @@ import UseCellFunction from "../hooks/UseCellFunctions";
 
 export default function MineGrid() {
   // consume states
-  const { gridLength, mineCount, isGameOver } = useGameState();
+  const { gridLength, mineCount, isGameOver, revealedCellCount } = useGameState();
+
   const { gridColor } = useColors();
 
   // init useStates
@@ -23,7 +24,16 @@ export default function MineGrid() {
     if (!isGameOver) {
       initializeGame(gridLength, mineCount, setMinePositions, setCellStates);
     }
-  }, [gridLength, mineCount, initializeGame, isGameOver]);
+  }, [isGameOver, gridLength, mineCount, initializeGame, setMinePositions, setCellStates]);
+
+  // Check if the game is over
+  useEffect(() => {
+    console.log(`Revealed cell count: ${revealedCellCount}`);
+
+    if (revealedCellCount === gridLength * gridLength - mineCount) {
+      console.log("You win!");
+    }
+  }, [revealedCellCount, gridLength, mineCount]);
 
   return (
     <div className="flex justify-center items-center h-screen">

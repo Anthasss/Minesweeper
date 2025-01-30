@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import useGameState from "../stores/UseGameState";
 
 export default function UseCellFunction(setCellStates) {
-  const { gridLength } = useGameState();
+  const { gridLength, incrementRevealedCellCount } = useGameState();
 
   // Function to get the row and column of the 8 neighbors around a cell
   const getNeighbors = useCallback(
@@ -78,8 +78,16 @@ export default function UseCellFunction(setCellStates) {
       setCellStates((prev) => {
         if (!prev[index] || prev[index].isFlagged) return prev;
 
+        // Check if the cell was already revealed before this update
+        const wasAlreadyRevealed = prev[index].isRevealed;
+
         const newStates = [...prev];
         newStates[index] = { ...newStates[index], isRevealed: true };
+
+        // Increment only if the cell was NOT previously revealed
+        if (!wasAlreadyRevealed) {
+          incrementRevealedCellCount();
+        }
 
         /* 
         newStates is basically a cell.
@@ -92,17 +100,15 @@ export default function UseCellFunction(setCellStates) {
             neighbors.forEach((neighbor) => {
               if (!visited.has(`${neighbor.row}-${neighbor.col}`)) {
                 revealCells(neighbor.row, neighbor.col, visited);
-
-                // maybe add the increment revealed cell here
               }
             });
-          }, 0);
+          }, 100);
         }
 
         return newStates;
       });
     },
-    [gridLength, getNeighbors, setCellStates]
+    [gridLength, getNeighbors, setCellStates, incrementRevealedCellCount]
   );
   return revealCells;
 }

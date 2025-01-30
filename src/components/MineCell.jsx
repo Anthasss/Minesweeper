@@ -4,7 +4,7 @@ import useGameState from "../stores/UseGameState";
 import { useColors } from "../stores/UseColors";
 
 export default function MineCell({ isMine, row, col, onReveal, cellState, setCellState }) {
-  const { toggleGameOver, setCurrentCell } = useGameState();
+  const { toggleGameOver, setCurrentCell, revealedCellCount } = useGameState();
   const { cellColor, gridColor } = useColors();
 
   const handleFlagging = (e) => {
@@ -30,7 +30,7 @@ export default function MineCell({ isMine, row, col, onReveal, cellState, setCel
       onReveal(row, col);
     }
 
-    console.log(`Cell revealed at row: ${row}, col: ${col}`);
+    console.log(`Cell ${revealedCellCount} revealed at row: ${row}, col: ${col}`);
   };
 
   if (!cellState) return null;
