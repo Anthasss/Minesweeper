@@ -53,7 +53,7 @@ export default function MineCell({ isMine, row, col, onReveal, cellState, setCel
           } w-full h-full grid place-items-center select-none rounded-lg font-bold text-3xl text-center`}
           onContextMenu={handleFlagging}
         >
-          {isMine ? "💣" : cellState.neighborCount > 0 ? cellState.neighborCount : ""}
+          {isMine ? "💣" : cellState.neighboringMineCount > 0 ? cellState.neighboringMineCount : ""}
         </div>
       )}
     </>

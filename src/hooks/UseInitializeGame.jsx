@@ -36,7 +36,7 @@ function initializeGame(gridLength, mineCount, setMinePositions, setCellStates, 
     isRevealed: false,
     isFlagged: false,
     isMine: mines.has(index), // 👈 Add this
-    neighborCount: countNeighboringMines(Math.floor(index / gridLength), index % gridLength, mines, gridLength),
+    neighboringMineCount: countNeighboringMines(Math.floor(index / gridLength), index % gridLength, mines, gridLength),
   }));
   setCellStates(initialCellStates);
 }
