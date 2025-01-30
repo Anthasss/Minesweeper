@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 export const useGameStates = create((set) => ({
+  // game over states
   isGameOver: false,
   setIsGameOver: (isGameOver) => set({ isGameOver }),
 
@@ -11,4 +12,7 @@ export const useGameStates = create((set) => ({
       newRevealedCells.add(cellIndex);
       return { revealedCells: newRevealedCells };
     }),
+
+  minePositions: new Set(),
+  setMinePositions: (minePositions) => set({ minePositions }),
 }));

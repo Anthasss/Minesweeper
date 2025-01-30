@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useVisualCustomization } from "../stores/UseVisualCustomization";
+import { useGameStates } from "../stores/UseGameStates";
 import { initGame } from "../utils/InitGame";
 
 import MineCell from "./MineCell";
 
 export default function MineGrid() {
   const { gridLength, mineCount, gridColor } = useVisualCustomization();
-  const [minePositions, setMinePositions] = useState(new Set());
+  const { minePositions, setMinePositions } = useGameStates();
 
   // initialize the game
   useEffect(() => {
     initGame(gridLength, mineCount, setMinePositions);
-  }, [gridLength, mineCount]);
+  }, [gridLength, mineCount, setMinePositions]);
 
   return (
     <div className="flex justify-center items-center h-screen">

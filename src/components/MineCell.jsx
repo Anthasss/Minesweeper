@@ -3,6 +3,7 @@ import { Flag } from "lucide-react";
 import { useState } from "react";
 import { useVisualCustomization } from "../stores/UseVisualCustomization";
 import { useGameStates } from "../stores/UseGameStates";
+import { getNeighbouringMines } from "../utils/GetNeighbouringMines";
 
 export default function MineCell({ isMine, cellIndex }) {
   // states initialization
@@ -48,7 +49,7 @@ export default function MineCell({ isMine, cellIndex }) {
             isMine ? "bg-red-500" : gridColor
           } w-full h-full grid place-items-center select-none rounded-lg font-bold text-xl text-center`}
         >
-          {isMine ? "💣" : "safe"}
+          {isMine ? "💣" : getNeighbouringMines(cellIndex) == 0 ? "" : getNeighbouringMines(cellIndex)}
         </div>
       )}
     </>
