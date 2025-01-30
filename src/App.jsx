@@ -1,9 +1,12 @@
 import MineGrid from "./components/MineGrid";
-import { useColors } from "./stores/UseColors";
-import GameEndModal from "./components/GameEndModal";
+// import GameEndModal from "./components/GameEndModal";
+// import MineCell from "./components/MineCell";
+import { useVisualCustomization } from "./stores/UseVisualCustomization";
+
+import Logger from "./components/Logger";
 
 function App() {
-  const { bgColor } = useColors();
+  const { bgColor } = useVisualCustomization();
   return (
     <>
       <div className={`${bgColor} grid grid-cols-[auto,1fr,auto] grid-rows-1 h-screen`}>
@@ -13,7 +16,13 @@ function App() {
         </div>
         <div className="row-start-1 col-start-3">world</div>
       </div>
-      <GameEndModal />
+
+      {/* <GameEndModal /> */}
+
+      {/* <div className={`flex justify-center items-center h-screen ${bgColor} `}>
+        <MineCell mineState={false} />
+      </div> */}
+      <Logger />
     </>
   );
 }

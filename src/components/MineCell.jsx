@@ -1,59 +1,54 @@
 /* eslint-disable react/prop-types */
 import { Flag } from "lucide-react";
-import useGameState from "../stores/UseGameState";
-import { useColors } from "../stores/UseColors";
+import { useState } from "react";
+import { useVisualCustomization } from "../stores/UseVisualCustomization";
+import { useGameStates } from "../stores/UseGameStates";
 
-export default function MineCell({ isMine, row, col, onReveal, cellState, setCellState }) {
-  const { toggleGameOver, setCurrentCell, revealedCellCount } = useGameState();
-  const { cellColor, gridColor } = useColors();
+export default function MineCell({ isMine, cellIndex }) {
+  // states initialization
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [isFlagged, setIsFlagged] = useState(false);
 
+  const { cellColor, gridColor } = useVisualCustomization();
+  const { addRevealedCell, setIsGameOver } = useGameStates();
+
+  // function
   const handleFlagging = (e) => {
     e.preventDefault();
-    if (!cellState.isRevealed) {
-      setCellState({ isFlagged: !cellState.isFlagged });
-      console.log(`Cell flagged at row: ${row}, col: ${col}`);
-    }
+    setIsFlagged(!isFlagged);
   };
 
   const handleReveal = () => {
-    if (!cellState || cellState.isFlagged || cellState.isRevealed) return;
+    if (!isFlagged) {
+      setIsRevealed(true);
 
-    setCurrentCell({
-      col: col,
-      row: row,
-    });
+      if (isMine) {
+        setIsGameOver(true);
+        return;
+      }
 
-    if (isMine) {
-      toggleGameOver();
-      setCellState({ isRevealed: true });
-    } else {
-      onReveal(row, col);
+      addRevealedCell(cellIndex);
     }
-
-    console.log(`Cell ${revealedCellCount} revealed at row: ${row}, col: ${col}`);
   };
-
-  if (!cellState) return null;
 
   return (
     <>
-      {!cellState.isRevealed && (
+      {!isRevealed && (
         <div
           className={`${cellColor} w-full h-full grid place-items-center select-none rounded-lg`}
           onContextMenu={handleFlagging}
           onClick={handleReveal}
         >
-          {cellState.isFlagged ? <Flag /> : ""}
+          {isFlagged ? <Flag /> : ""}
         </div>
       )}
-      {cellState.isRevealed && (
+      {isRevealed && (
         <div
           className={`${
             isMine ? "bg-red-500" : gridColor
-          } w-full h-full grid place-items-center select-none rounded-lg font-bold text-3xl text-center`}
-          onContextMenu={handleFlagging}
+          } w-full h-full grid place-items-center select-none rounded-lg font-bold text-xl text-center`}
         >
-          {isMine ? "💣" : cellState.neighboringMineCount > 0 ? cellState.neighboringMineCount : ""}
+          {isMine ? "💣" : "safe"}
         </div>
       )}
     </>
