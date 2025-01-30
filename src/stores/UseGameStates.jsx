@@ -12,6 +12,12 @@ export const useGameStates = create((set) => ({
       newRevealedCells.add(cellIndex);
       return { revealedCells: newRevealedCells };
     }),
+  addMultipleRevealedCells: (cellIndices) =>
+    set((state) => {
+      const newRevealedCells = new Set(state.revealedCells);
+      cellIndices.forEach((index) => newRevealedCells.add(index));
+      return { revealedCells: newRevealedCells };
+    }),
 
   minePositions: new Set(),
   setMinePositions: (minePositions) => set({ minePositions }),
