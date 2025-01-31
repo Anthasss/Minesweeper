@@ -5,6 +5,9 @@ export const useGameStates = create((set) => ({
   isGameOver: false,
   setIsGameOver: (isGameOver) => set({ isGameOver }),
 
+  isGameWon: false,
+  setIsGameWon: (isGameWon) => set({ isGameWon }),
+
   revealedCells: new Set(),
   addRevealedCell: (cellIndex) =>
     set((state) => {
@@ -40,6 +43,7 @@ export const useGameStates = create((set) => ({
   // restart game
   restartGame: () => {
     set({ isGameOver: false });
+    set({ isGameWon: false });
     set({ revealedCells: new Set() });
     set({ flaggedCells: new Set() });
   },
