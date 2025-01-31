@@ -1,18 +1,18 @@
 import { Dialog, DialogTitle, DialogActions, Button } from "@mui/material";
 import { grey, orange } from "@mui/material/colors";
-import { useState } from "react";
+import { useGameStates } from "../stores/UseGameStates";
 
 export default function GameEndModal() {
-  const [open, setOpen] = useState(false);
+  const { isGameOver, restartGame } = useGameStates();
 
   const handleClose = () => {
-    setOpen(false);
+    restartGame();
     console.log("game restarted");
   };
 
   return (
     <Dialog
-      open={open}
+      open={isGameOver}
       fullWidth={true}
       maxWidth="xs"
       sx={{

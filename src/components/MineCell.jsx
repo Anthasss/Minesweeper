@@ -1,19 +1,18 @@
 /* eslint-disable react/prop-types */
 import { Flag } from "lucide-react";
-import { useState } from "react";
 import { useVisualCustomization } from "../stores/UseVisualCustomization";
 import { useGameStates } from "../stores/UseGameStates";
 import { getNeighbouringMines } from "../utils/GetNeighbouringMines";
 
 export default function MineCell({ isMine, cellIndex }) {
-  const [isFlagged, setIsFlagged] = useState(false);
-  const { cellColor, gridColor } = useVisualCustomization();
-  const { addRevealedCell, addMultipleRevealedCells, revealedCells, setIsGameOver } = useGameStates();
-  const isRevealed = revealedCells.has(cellIndex); // Derive from global state
+  const { cellColor, gridColor, gridLength } = useVisualCustomization();
+  const { addRevealedCell, addMultipleRevealedCells, revealedCells, flaggedCells, addFlaggedCell, setIsGameOver } =
+    useGameStates();
+  const isRevealed = revealedCells.has(cellIndex);
+  const isFlagged = flaggedCells.has(cellIndex);
 
   // Flood fill logic
   const getNeighborIndices = (index) => {
-    const { gridLength } = useVisualCustomization.getState();
     const currentRow = Math.floor(index / gridLength);
     const currentCol = index % gridLength;
     const neighbors = [];
@@ -74,7 +73,7 @@ export default function MineCell({ isMine, cellIndex }) {
 
   const handleFlagging = (e) => {
     e.preventDefault();
-    setIsFlagged(!isFlagged);
+    addFlaggedCell(cellIndex);
   };
 
   return (

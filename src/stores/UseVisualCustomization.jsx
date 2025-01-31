@@ -12,5 +12,5 @@ export const useVisualCustomization = create((set) => ({
   // colors
   cellColor: "bg-orange-500",
   gridColor: "bg-stone-100",
-  bgColor: "bg-stone-950",
+  bgColor: "bg-orange-300",
 }));

@@ -19,6 +19,21 @@ export const useGameStates = create((set) => ({
       return { revealedCells: newRevealedCells };
     }),
 
+  flaggedCells: new Set(),
+  addFlaggedCell: (cellIndex) =>
+    set((state) => {
+      const newFlaggedCells = new Set(state.flaggedCells);
+      newFlaggedCells.add(cellIndex);
+      return { flaggedCells: newFlaggedCells };
+    }),
+
   minePositions: new Set(),
   setMinePositions: (minePositions) => set({ minePositions }),
+
+  // restart game
+  restartGame: () => {
+    set({ isGameOver: false });
+    set({ revealedCells: new Set() });
+    set({ flaggedCells: new Set() });
+  },
 }));

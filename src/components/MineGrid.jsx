@@ -8,12 +8,14 @@ import MineCell from "./MineCell";
 
 export default function MineGrid() {
   const { gridLength, mineCount, gridColor } = useVisualCustomization();
-  const { minePositions, setMinePositions } = useGameStates();
+  const { minePositions, setMinePositions, isGameOver } = useGameStates();
 
   // initialize the game
   useEffect(() => {
-    initGame(gridLength, mineCount, setMinePositions);
-  }, [gridLength, mineCount, setMinePositions]);
+    if (!isGameOver) {
+      initGame(gridLength, mineCount, setMinePositions);
+    }
+  }, [gridLength, mineCount, setMinePositions, isGameOver]);
 
   return (
     <div className="flex justify-center items-center h-screen">
