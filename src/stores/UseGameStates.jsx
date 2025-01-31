@@ -26,6 +26,13 @@ export const useGameStates = create((set) => ({
       newFlaggedCells.add(cellIndex);
       return { flaggedCells: newFlaggedCells };
     }),
+  removeFlaggedCell: (cellIndex) => {
+    set((state) => {
+      const newFlaggedCells = new Set(state.flaggedCells);
+      newFlaggedCells.delete(cellIndex);
+      return { flaggedCells: newFlaggedCells };
+    });
+  },
 
   minePositions: new Set(),
   setMinePositions: (minePositions) => set({ minePositions }),

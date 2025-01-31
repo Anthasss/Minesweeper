@@ -6,8 +6,15 @@ import { getNeighbouringMines } from "../utils/GetNeighbouringMines";
 
 export default function MineCell({ isMine, cellIndex }) {
   const { cellColor, gridColor, gridLength } = useVisualCustomization();
-  const { addRevealedCell, addMultipleRevealedCells, revealedCells, flaggedCells, addFlaggedCell, setIsGameOver } =
-    useGameStates();
+  const {
+    addRevealedCell,
+    addMultipleRevealedCells,
+    revealedCells,
+    flaggedCells,
+    addFlaggedCell,
+    removeFlaggedCell,
+    setIsGameOver,
+  } = useGameStates();
   const isRevealed = revealedCells.has(cellIndex);
   const isFlagged = flaggedCells.has(cellIndex);
 
@@ -73,7 +80,11 @@ export default function MineCell({ isMine, cellIndex }) {
 
   const handleFlagging = (e) => {
     e.preventDefault();
-    addFlaggedCell(cellIndex);
+    if (flaggedCells.has(cellIndex)) {
+      removeFlaggedCell(cellIndex);
+    } else {
+      addFlaggedCell(cellIndex);
+    }
   };
 
   return (
